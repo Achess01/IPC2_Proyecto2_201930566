@@ -1,5 +1,6 @@
 
 import xml.etree.cElementTree as ET
+from datetime import datetime
 
 FILENAME = 'data.xml'
 def add_data(data):
@@ -172,11 +173,35 @@ def get_games_classification():
     try:
         xml = ET.parse(FILENAME)    
         root = xml.getroot()
-        bests = root.findall("juegos/clasificacionCuenta")        
-        bests.sort(key=lambda classification: int(classification.text), reverse=True)
+        cla = root.findall("juegos/clasificacionCuenta")        
+        cla.sort(key=lambda classification: int(classification.text), reverse=True)
         response = ET.ElementTree(ET.Element("clasificacionJuegos"))
         response_root = response.getroot()
-        for classification in bests:
+        for classification in cla:
+            response_root.append(classification)        
+        return ET.tostring(response_root, encoding='UTF-8')
+    except:        
+        response = ET.Element("Message")
+        response.text = "No se encontraron datos"
+        return ET.tostring(response, encoding='UTF-8')
+
+
+def get_day_month(strdate):
+    actual_year = datetime.today().year    
+    date = datetime.strptime(strdate, "%d/%m/%Y")
+    return datetime.date(datetime(actual_year, date.month, date.day))
+    
+
+def get_birthdays():
+    try:
+        xml = ET.parse(FILENAME)    
+        root = xml.getroot()
+        birthdays = root.findall("clientes/cliente")        
+        birthdays = [birthday for birthday in birthdays if birthday.find('fechaCumpleaños').text != '-']
+        birthdays.sort(key=lambda birthday: get_day_month(birthday.find('fechaCumpleaños').text))
+        response = ET.ElementTree(ET.Element("cumpleaños"))
+        response_root = response.getroot()
+        for classification in birthdays:
             response_root.append(classification)        
         return ET.tostring(response_root, encoding='UTF-8')
     except:        

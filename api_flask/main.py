@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask import json
 from flask.json import jsonify
 
-from src.SaveData import add_data, get_best_clients, get_best_games, get_games_classification
+from src.SaveData import *
 
 app = Flask(__name__)
 
@@ -29,8 +29,10 @@ def most_selled():
 def games_classification():
     return get_games_classification()
 
-
-
+@app.route('/birthdays')
+def birhdays():
+    return get_birthdays()
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
