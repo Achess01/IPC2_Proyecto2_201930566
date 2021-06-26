@@ -33,6 +33,9 @@ def games_classification():
 def birhdays():
     return get_birthdays()
     
+@app.route('/games')
+def games():
+    return get_games()
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)

@@ -208,3 +208,19 @@ def get_birthdays():
         response = ET.Element("Message")
         response.text = "No se encontraron datos"
         return ET.tostring(response, encoding='UTF-8')
+
+def get_games():
+    try:
+        xml = ET.parse(FILENAME)    
+        root = xml.getroot()
+        games = root.findall("juegos/juego")        
+        games.sort(key=lambda game: int(game.find('stock').text), reverse=True)
+        response = ET.ElementTree(ET.Element("juegosMasVendidos"))
+        response_root = response.getroot()
+        for game in games:
+            response_root.append(game)        
+        return ET.tostring(response_root, encoding='UTF-8')
+    except:        
+        response = ET.Element("Message")
+        response.text = "No se encontraron datos"
+        return ET.tostring(response, encoding='UTF-8')
