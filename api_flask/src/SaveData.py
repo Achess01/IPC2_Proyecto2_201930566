@@ -151,3 +151,35 @@ def get_best_clients():
         response.text = "No se encontraron datos"
         return ET.tostring(response, encoding='UTF-8')
     
+def get_best_games():
+    try:
+        xml = ET.parse(FILENAME)    
+        root = xml.getroot()
+        bests = root.findall("juegos/juego")
+        bests = [game for game in bests if game.find('copiasVendidas').text != '0']
+        bests.sort(key=lambda game: int(game.find('copiasVendidas').text), reverse=True)
+        response = ET.ElementTree(ET.Element("juegosMasVendidos"))
+        response_root = response.getroot()
+        for game in bests:
+            response_root.append(game)        
+        return ET.tostring(response_root, encoding='UTF-8')
+    except:        
+        response = ET.Element("Message")
+        response.text = "No se encontraron datos"
+        return ET.tostring(response, encoding='UTF-8')
+
+def get_games_classification():
+    try:
+        xml = ET.parse(FILENAME)    
+        root = xml.getroot()
+        bests = root.findall("juegos/clasificacionCuenta")        
+        bests.sort(key=lambda classification: int(classification.text), reverse=True)
+        response = ET.ElementTree(ET.Element("clasificacionJuegos"))
+        response_root = response.getroot()
+        for classification in bests:
+            response_root.append(classification)        
+        return ET.tostring(response_root, encoding='UTF-8')
+    except:        
+        response = ET.Element("Message")
+        response.text = "No se encontraron datos"
+        return ET.tostring(response, encoding='UTF-8')
