@@ -1,18 +1,30 @@
-from xml.etree.ElementTree import XMLParser
-import xml.etree.cElementTree as ET
-from xml.dom import minidom
 
+import xml.etree.cElementTree as ET
+
+FILENAME = 'data.xml'
 def add_data(data):
     try:
-        xml = ET.parse('data.xml')
+        xml = ET.parse(FILENAME)
         root = xml.getroot()     
         clients = root.find('clientes')   
-        games = root.find('juegos')   
+        games = root.find('juegos')               
+        cla_E = games.find("clasificacionCuenta/[@value='E']")
+        cla_T = games.find("clasificacionCuenta/[@value='T']")
+        cla_M = games.find("clasificacionCuenta/[@value='M']")
     except:
         xml = ET.ElementTree(ET.Element("Chet"))
         root = xml.getroot()
         clients = ET.SubElement(root, "clientes")        
-        games = ET.SubElement(root, "juegos")        
+        games = ET.SubElement(root, "juegos")                             
+        cla_E = ET.SubElement(games, 'clasificacionCuenta')
+        cla_T = ET.SubElement(games, 'clasificacionCuenta')
+        cla_M = ET.SubElement(games, 'clasificacionCuenta')
+        cla_E.set('value', 'E')
+        cla_T.set('value', 'T')
+        cla_M.set('value', 'M')
+        cla_E.text = "0"
+        cla_T.text = "0"
+        cla_M.text = "0"
             
     # clients = root.find("clientes/cliente")    
     # print(clients)
@@ -61,10 +73,12 @@ def add_data(data):
         amount.text = client.find('cantidadComprada').text
         expensed = ET.SubElement(new_client, 'cantidadGastada')
         expensed.text = client.find('cantidadGastada').text        
-
-    
+        
     games_list = new.findall('juegos/juego')    
     most_selled_games_list = new.findall('juegosMasVendidos/juegoMasVendido')
+    count_E = 0
+    count_T = 0
+    count_M = 0
     for game in games_list:                
         new_game = ET.SubElement(games, "juego")
         name = ET.SubElement(new_game,"nombre")
@@ -75,6 +89,12 @@ def add_data(data):
         release_year.text = game.find('añoLanzamiento').text
         classification = ET.SubElement(new_game, 'clasificacion')
         classification.text = game.find('clasificacion').text
+        if classification.text == 'E':
+            count_E+=1
+        elif classification.text == 'T':
+            count_T+=1
+        elif classification.text == 'M':
+            count_M+=1
         last_buy = ET.SubElement(new_game, 'fechaUltimaCompra')
         copies_selled = ET.SubElement(new_game, 'copiasVendidas')
         stock = ET.SubElement(new_game, 'stock')
@@ -108,25 +128,26 @@ def add_data(data):
         copies_selled.text = game.find('copiasVendidas').text
         stock.text = game.find('stock').text
         
-    xml.write('data.xml', encoding='UTF-8', xml_declaration=True)
+    cla_E.text = str(int(cla_E.text)+ count_E)
+    cla_T.text = str(int(cla_T.text)+ count_T)
+    cla_M.text = str(int(cla_M.text)+ count_M)
+        
+    xml.write(FILENAME, encoding='UTF-8', xml_declaration=True)
 
-
+def get_best_clients():
+    try:
+        xml = ET.parse(FILENAME)    
+        root = xml.getroot()
+        bests = root.findall("clientes/cliente")
+        bests = [client for client in bests if client.find('cantidadGastada').text != '0']
+        bests.sort(key=lambda client: int(client.find('cantidadGastada').text), reverse=True)
+        response = ET.ElementTree(ET.Element("mejoresClientes"))
+        response_root = response.getroot()
+        for client in bests:
+            response_root.append(client)        
+        return ET.tostring(response_root, encoding='UTF-8')
+    except:        
+        response = ET.Element("Message")
+        response.text = "No se encontraron datos"
+        return ET.tostring(response, encoding='UTF-8')
     
-
-
-    
-    # a = ET.ElementTree(new)
-    # a.write('a.xml', encoding='UTF-8', xml_declaration=True)
-    # print(new.find('clientes/cliente/fechaCumpleaños').text)
-    # clients  = new.findall('clientes/cliente')    
-    # cl = root.find('clientes').append(clients[7])    
-    # xml.write('data.xml',encoding='UTF-8', xml_declaration=True)
-
-
-    # print(new)
-    # chet = data.getElementsByTagName("cliente")        
-    # for cliente in chet:
-    #     for datos in cliente.childNodes:
-    #         if datos.nodeName != "#text":
-    #             print(datos.firstChild.data)
-    #xml.write('data.xml')        
