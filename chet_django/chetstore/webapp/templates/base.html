@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{% static 'index.css'%}">
     </head>
     <body>
-    {% include "new_templates/header.html" %}    
+    {% include "header.html" %}    
     <main>
         <div class="main">
             {% block main%}
@@ -18,9 +18,6 @@
     </main>
     <footer><div class="footer">
         <h3>by <a target ="_blank" href="https://github.com/Achess01">Achess01</a></h3>
-    </div></footer>  
-    {% block scripts %}
-    
-    {% endblock scripts %}      
+    </div></footer>      
 </body>
 </html>

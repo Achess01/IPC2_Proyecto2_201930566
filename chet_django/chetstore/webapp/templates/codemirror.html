@@ -1,12 +1,11 @@
-{% extends "new_templates/base.html" %}
+{% extends "base.html" %}
 
 {% block head_content %}
     <title>CODE MIRROR</title>
     {% load static %}
-    <link rel="stylesheet" href="{%static 'codemirror/codemirror.css' %}">
-    <link rel="stylesheet" href="{%static 'codemirror/darcula.css' %}">
-    <script src="{% static 'codemirror/codemirror.js' %}"></script>
-    <script src="{%static 'codemirror/xml/xml.js'%}"></script>  
+    <link rel="stylesheet" href="{%static '/node_modules/codemirror/lib/codemirror.css' %}">
+    <link rel="stylesheet" href="{%static '/node_modules/codemirror/theme/darcula.css' %}">
+    <script src="{%static 'codemirror/index.js'%}" type="module"></script> 
 {% endblock head_content %}
 
 {% block main %}
@@ -19,14 +18,3 @@
         </form>
     </div>    
 {% endblock main %}
-
-{% block scripts %}
-    <script>
-        let text = document.getElementById('pruebaCodeMirror')
-        let editor = CodeMirror.fromTextArea(text, {            
-            lineNumbers: true,
-            mode: "xml"
-        });
-        editor.setOption("theme", "darcula")
-    </script>
-{% endblock scripts %}
