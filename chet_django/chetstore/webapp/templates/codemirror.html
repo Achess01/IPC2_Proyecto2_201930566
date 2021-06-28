@@ -1,0 +1,32 @@
+{% extends "new_templates/base.html" %}
+
+{% block head_content %}
+    <title>CODE MIRROR</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'codemirror/codemirror.css' %}">
+    <link rel="stylesheet" href="{%static 'codemirror/darcula.css' %}">
+    <script src="{% static 'codemirror/codemirror.js' %}"></script>
+    <script src="{%static 'codemirror/xml/xml.js'%}"></script>  
+{% endblock head_content %}
+
+{% block main %}
+    <div class="text-editor">
+        <form action="" method="POST">
+        {% csrf_token %}
+        <textarea id="pruebaCodeMirror" name="data"></textarea>
+        <br>
+        <input type="submit" value="Correcto" class="button">
+        </form>
+    </div>    
+{% endblock main %}
+
+{% block scripts %}
+    <script>
+        let text = document.getElementById('pruebaCodeMirror')
+        let editor = CodeMirror.fromTextArea(text, {            
+            lineNumbers: true,
+            mode: "xml"
+        });
+        editor.setOption("theme", "darcula")
+    </script>
+{% endblock scripts %}

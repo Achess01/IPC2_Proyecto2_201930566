@@ -1,0 +1,93 @@
+body{
+    margin: 0;
+}
+
+header, main, footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    background-color: rgb(89, 89, 89);    
+    color: white;
+    height: 12vh;
+}
+
+main{
+    min-height: calc(88vh - 50px);
+}
+
+footer{
+    background-color: rgb(89, 89, 89);
+    color: white;
+    height: 50px;
+}
+.header a{
+    color: white;
+}
+.footer a{
+    color: white
+}
+
+a:hover{
+    color: rgb(225, 224, 0);
+}
+
+.header, .main, .footer{
+    display: flex;
+    width: 70%;
+    height: 100%;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button{
+    border: 2px solid rgb(225, 224, 0);
+    height: 40px;
+    padding: 0 10px;
+    background-color: rgb(89, 89, 89);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button:hover{
+    transform: scale(1.05);
+}
+
+.text-editor{
+    width: 100%;
+}
+.header{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table{
+    width: 100%;
+    margin: 20px 0;
+}
+
+.report{
+    width: 70%;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid rgb(252, 114, 4);;
+    border-collapse: collapse;
+    text-align: center;
+  }
