@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Categorías</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+{% endblock head_content %}
+
+{% block main %}
+    <h1>Clasificación de los juegos</h1>
+    <div class="graphs">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock main %}
+{% block scripts %}    
+    <script>        
+        const data = {
+            labels: {{labels|safe}},            
+            datasets: [{
+                label: 'Clasificación',
+                data: {{data|safe}},
+                hoverOffset: 4,
+                backgroundColor: [
+                '#F1C40F','#1F618D','#CB4335' 
+                ],
+            }]
+        };
+
+        const config = {
+            type: 'polarArea',
+            data: data,                        
+        };
+
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+{% endblock scripts %}

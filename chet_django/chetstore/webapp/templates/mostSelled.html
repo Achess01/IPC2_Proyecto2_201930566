@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola desde Django</title>
-</head>
-<body>     
-    <div>
-        <canvas id="myChart"></canvas>
-      </div>
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Juegos más vendidos</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+{% endblock head_content %}
+
+{% block main %}
+    <h1>Juego más vendidos</h1>
+    <div class="graphs">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock main %}
+{% block scripts %}    
     <script>        
         function handleHover(evt, item, legend) {
         legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
@@ -29,7 +30,7 @@
         const data = {
             labels: {{labels|safe}},            
             datasets: [{
-                label: '# of Votes',
+                label: 'Juegos más vendidos',
                 data: {{data|safe}},
                 borderWidth: 1,
                 backgroundColor: ['#CB4335', '#1F618D', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
@@ -54,5 +55,4 @@
             config
         );
     </script>
-</body>
-</html>
+{% endblock scripts %}

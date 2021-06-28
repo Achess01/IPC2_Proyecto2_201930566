@@ -48,6 +48,10 @@ a:hover{
     justify-content: center;
 }
 
+.graphs{
+    width: 70%;
+}
+
 .button{
     border: 2px solid rgb(225, 224, 0);
     height: 40px;

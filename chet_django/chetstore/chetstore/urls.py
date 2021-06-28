@@ -19,5 +19,8 @@ from webapp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('texteditor/', codemirror)
+    path('texteditor/', codemirror),
+    path('most_selled/', most_selled),
+    path('best_clients/', best_clients),
+    path('games_classification/', games_classification),
 ]

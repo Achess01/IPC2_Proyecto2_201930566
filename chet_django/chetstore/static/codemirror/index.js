@@ -8,5 +8,4 @@ window.onload = function(){
         mode: "xml"
     });
     editor.setOption("theme", "darcula")
-
 }
