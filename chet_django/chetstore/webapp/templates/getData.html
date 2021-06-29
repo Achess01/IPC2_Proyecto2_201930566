@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Subir archivo</title>
+{% endblock head_content %}
+
+{% block main %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="subir" accept=".csv" multiple="multiple">
+        <input type="submit" value="Subir">
+    </form>
+{% endblock main %}

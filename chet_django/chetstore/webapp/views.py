@@ -1,17 +1,35 @@
+from typing import IO
 from django.shortcuts import render
 from django.http.response import HttpResponse
 import xml.etree.ElementTree as ET
 import requests
+import csv
+from io import StringIO
 
 # Create your views here.
 
+##Subir archivo
+
+def getData(request):
+    if request.method == 'POST':        
+        # with open(request.FILES['subir']) as csv_file:
+        print(len(request.FILES.getlist('subir')), "tamaño")
+        for f in request.FILES.getlist('subir'):         
+            content = StringIO(f.read().decode('utf-8'))
+            csv_reader = csv.reader(content, delimiter=',')
+            for row in csv_reader:
+                for item in row:                
+                    print(item)
+            print("*"*10)
+    return render(request, 'getData.html')
 ## Requests
 
 def see_requests(request):
     return render(request, 'requests.html')
+
 def codemirror(request):
     if request.method == 'POST'    :
-        print('*'*10)
+        print('*'*10)        
         data = request.POST['data']
         print(data)
         print('*'*10)

@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', codemirror),
 
+    ##file
+    path('upfile/', getData),
     ## Requests
     path('requests/', see_requests),
     path('requests/most_selled/', most_selled),
