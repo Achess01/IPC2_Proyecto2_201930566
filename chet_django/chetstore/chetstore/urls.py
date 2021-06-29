@@ -20,10 +20,10 @@ from webapp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', codemirror),
+    path('editor/', codemirror),
 
     ##file
-    path('upfile/', getData),
+    path('', getData),
     ## Requests
     path('requests/', see_requests),
     path('requests/most_selled/', most_selled),

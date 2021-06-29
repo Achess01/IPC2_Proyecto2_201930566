@@ -1,13 +1,35 @@
 {% extends "base.html" %}
 
 {% block head_content %}
-    <title>Subir archivo</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static '/node_modules/codemirror/lib/codemirror.css' %}">
+    <link rel="stylesheet" href="{%static '/node_modules/codemirror/theme/darcula.css' %}">
+    <link rel="stylesheet" href="{%static 'loadfile.css' %}">
+    <script src="{%static 'codemirror/index.js'%}" type="module"></script> 
+    <title>Subir archivo</title>    
 {% endblock head_content %}
 
 {% block main %}
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="subir" accept=".csv" multiple="multiple">
-        <input type="submit" value="Subir">
-    </form>
+    {% if not validator %}
+        <div class="error"><h3>{{message}}</h3></div>
+        <div class="formFile">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}            
+                <input type="file" name="subir" accept=".csv" multiple="multiple" class="custom-file-input">
+                <br/>
+                <br/>
+                <input type="submit" value="Subir" class="button">
+            </form>
+        </div>
+    {% endif %}
+    {% if  validator%}
+        <div class="text-editor">
+            <form action="" method="POST">
+            {% csrf_token %}
+            <textarea id="pruebaCodeMirror" name="data"></textarea>
+            <br>
+            <input type="submit" value="Correcto" class="button">
+            </form>
+        </div>  
+    {% endif %}
 {% endblock main %}

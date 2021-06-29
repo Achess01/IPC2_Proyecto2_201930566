@@ -100,12 +100,18 @@ a:hover{
     transform: scale(1.05);
 }
 
-.text-editor{
-    width: 100%;
-}
+
 .header{
     justify-content: space-between;
     align-items: center;
+}
+/*  */
+
+
+
+/*  */
+.error{
+    color: red;
 }
 
 .footer{

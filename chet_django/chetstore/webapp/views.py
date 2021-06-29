@@ -11,29 +11,35 @@ from io import StringIO
 ##Subir archivo
 
 def getData(request):
+    response = {
+        'message': '',
+        'validator': False,
+    }
     if request.method == 'POST':        
-        # with open(request.FILES['subir']) as csv_file:
-        print(len(request.FILES.getlist('subir')), "tamaño")
-        for f in request.FILES.getlist('subir'):         
-            content = StringIO(f.read().decode('utf-8'))
-            csv_reader = csv.reader(content, delimiter=',')
-            for row in csv_reader:
-                for item in row:                
-                    print(item)
-            print("*"*10)
-    return render(request, 'getData.html')
+        if len(request.FILES.getlist('subir')) == 4:        
+            for f in request.FILES.getlist('subir'):         
+                content = StringIO(f.read().decode('utf-8'))
+                csv_reader = csv.reader(content, delimiter=',')
+                for row in csv_reader:
+                    for item in row:                
+                        print(item)
+                print("*"*10)
+            response['validator'] = True
+        else:
+            response['message'] = "Error: Tiene que subir exactamente 4 archivos"
+    return render(request, 'getData.html', response)
 ## Requests
 
 def see_requests(request):
     return render(request, 'requests.html')
 
 def codemirror(request):
-    if request.method == 'POST'    :
+    if request.method == 'POST':
         print('*'*10)        
         data = request.POST['data']
         print(data)
-        print('*'*10)
-    return render(request, 'codemirror.html')
+        print('*'*10)                    
+    return render(request, 'codemirror.html')            
 
 def most_selled(request):
     try:
@@ -66,7 +72,6 @@ def best_clients(request):
         return render(request, 'bestClients.html', data_graph)
     except:
         return HttpResponse('Verifique que la api esté disponible')
-
 
 def games_classification(request):
     try:
