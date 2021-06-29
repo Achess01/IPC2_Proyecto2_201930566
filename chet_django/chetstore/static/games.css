@@ -1,0 +1,23 @@
+.games_list{
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 293px));
+    justify-content: center;
+    gap: 28px;
+    padding-bottom: 20px;
+}
+
+.game{    
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px;        
+    transition: 300ms;  
+}
+
+.game:hover{
+    transform: scale(1.1);
+}
+
+.game p{
+    margin: 0;
+}

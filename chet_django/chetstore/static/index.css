@@ -27,6 +27,40 @@ footer{
 .header a{
     color: white;
 }
+
+.menu{
+    height: inherit;
+}
+
+
+.header ol{
+    display: flex;
+    height: inherit;
+}
+
+.header ol li{
+    height: inherit;
+}
+
+ol, 
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+.header a:hover {
+    background-color: white;
+}
+
 .footer a{
     color: white
 }

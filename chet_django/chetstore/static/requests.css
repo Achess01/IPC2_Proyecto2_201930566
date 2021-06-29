@@ -1,0 +1,19 @@
+.options{
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 293px));
+    justify-content: center;
+    gap: 28px;
+    padding-bottom: 20px;
+}
+
+.op{
+    border: 1px solid rgb(225, 224, 0);
+    border-radius: 20px;
+    text-align: center;
+}
+.op a{
+    height: inherit;    
+    width: inherit;
+    color: rgb(89, 89, 89);
+}

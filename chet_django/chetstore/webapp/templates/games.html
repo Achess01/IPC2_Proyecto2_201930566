@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'games.css'%}">
+    <title>Inventario de juegos</title>
+{% endblock head_content %}
+
+{% block main %}
+    <h1>Inventario de juegos</h1>
+    <section class="games_list">
+    {% for game in games %}        
+        <article class="game" style="box-shadow: 5px 5px 0px 0px {{game.color}};">
+            <h2>{{game.name}}</h2>  
+            <p>Plataforma: {{game.platform}}</p>
+            <p>Año lanzamiento: {{game.release}}</p>
+            <p>Clasificación: {{game.cla}}</p>
+            <p>Copias vendidas: {{game.selled}}</p>
+            <strong><i><p>Stock: {{game.stock}}</p></i></strong>
+        </article>        
+    {% endfor %}
+    </section>
+{% endblock main %}

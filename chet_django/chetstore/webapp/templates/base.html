@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html">
+<html>
     <head>
+        {% block head_content%}{%endblock%}
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% block head_content%}{%endblock%}
         {% load static %}        
         <link rel="stylesheet" href="{% static 'index.css'%}">
     </head>
     <body>
-    {% include "header.html" %}    
-    <main>
-        <div class="main">
-            {% block main%}
-            {% endblock%}
-        </div>
-    </main>
-    <footer><div class="footer">
-        <h3>by <a target ="_blank" href="https://github.com/Achess01">Achess01</a></h3>
-    </div></footer>      
-    {% block scripts %}    
-    {% endblock scripts %}
-</body>
+        {% include "header.html" %}    
+        <main>
+            <div class="main">
+                {% block main%}
+                {% endblock%}
+            </div>
+        </main>
+        <footer><div class="footer">
+            <h3>by <a target ="_blank" href="https://github.com/Achess01">Achess01</a></h3>
+        </div></footer>      
+        {% block scripts %}    
+        {% endblock scripts %}
+    </body>
 </html>

@@ -111,6 +111,11 @@ def add_data(data):
         last_buy.text = lb
         copies_selled.text = nc
         stock.text = st
+        color = ET.SubElement(new_game, "color")
+        color_text = "#000"
+        if int(st) < 10:
+            color_text = "#F00"
+        color.text = color_text
 
     for game in most_selled_games_list:
         new_game = ET.SubElement(games, "juego")
@@ -128,6 +133,12 @@ def add_data(data):
         last_buy.text = game.find('fechaUltimaCompra').text
         copies_selled.text = game.find('copiasVendidas').text
         stock.text = game.find('stock').text
+        color = ET.SubElement(new_game, "color")
+        color_text = "#000"
+        if int(stock.text) < 10:
+            color_text = "#F00"
+        color.text = color_text
+
         
     cla_E.text = str(int(cla_E.text)+ count_E)
     cla_T.text = str(int(cla_T.text)+ count_T)
@@ -188,7 +199,7 @@ def get_games_classification():
 
 def get_day_month(strdate):
     actual_year = datetime.today().year    
-    date = datetime.strptime(strdate, "%d/%m/%Y")
+    date = datetime.strptime(strdate, "%d/%m/%Y")    
     return datetime.date(datetime(actual_year, date.month, date.day))
     
 
@@ -202,6 +213,10 @@ def get_birthdays():
         response = ET.ElementTree(ET.Element("cumpleaños"))
         response_root = response.getroot()
         for classification in birthdays:
+            cl = classification.find('fechaCumpleaños')
+            date = datetime.strptime(cl.text, "%d/%m/%Y")
+            date = date.strftime('%d/%B')
+            cl.text = str(date)
             response_root.append(classification)        
         return ET.tostring(response_root, encoding='UTF-8')
     except:        
@@ -215,7 +230,7 @@ def get_games():
         root = xml.getroot()
         games = root.findall("juegos/juego")        
         games.sort(key=lambda game: int(game.find('stock').text), reverse=True)
-        response = ET.ElementTree(ET.Element("juegosMasVendidos"))
+        response = ET.ElementTree(ET.Element("juegos"))
         response_root = response.getroot()
         for game in games:
             response_root.append(game)        

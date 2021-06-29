@@ -1,0 +1,21 @@
+.birthdays{
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 293px));
+    justify-content: center;
+    gap: 28px;
+    padding-bottom: 20px;
+}
+
+.client{
+    background-color: #E1EEFF;
+    border: 1px solid #289FED;
+    border-radius: 20px;
+    padding: 20px;    
+    box-shadow: 5px 5px 0px 0px #289FED;
+    transition: 300ms;    
+}
+
+.client:hover{
+    transform: scale(1.1);
+}

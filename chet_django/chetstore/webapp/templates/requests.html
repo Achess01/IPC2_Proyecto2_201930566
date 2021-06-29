@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'requests.css'%}">
+    <title>Peticiones</title>
+{% endblock head_content %}
+
+{% block main %}
+    <section class="options">
+        <div class="op">
+            <h2><a href="best_clients/">Mejores clientes</a></h2>
+        </div>
+        <div class="op">
+            <h2><a href="most_selled/">Juegos más vendidos</a></h2>
+        </div>
+        <div class="op">
+            <h2><a href="games_classification/">Clasificación</a></h2>
+        </div>
+        <div class="op">
+            <h2><a href="birthdays/">Cumpleaños</a></h2>
+        </div>
+        <div class="op">
+            <h2><a href="games/">Listado de juegos</a></h2>
+        </div>
+
+    <section>
+{% endblock main %}

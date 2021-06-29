@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from requests.api import request
 from webapp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('texteditor/', codemirror),
-    path('most_selled/', most_selled),
-    path('best_clients/', best_clients),
-    path('games_classification/', games_classification),
+    path('', codemirror),
+
+    ## Requests
+    path('requests/', see_requests),
+    path('requests/most_selled/', most_selled),
+    path('requests/best_clients/', best_clients),
+    path('requests/games_classification/', games_classification),
+    path('requests/birthdays/', birthdays),
+    path('requests/games/', games)
 ]

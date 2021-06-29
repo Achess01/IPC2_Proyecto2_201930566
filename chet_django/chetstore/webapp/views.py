@@ -4,6 +4,11 @@ import xml.etree.ElementTree as ET
 import requests
 
 # Create your views here.
+
+## Requests
+
+def see_requests(request):
+    return render(request, 'requests.html')
 def codemirror(request):
     if request.method == 'POST'    :
         print('*'*10)
@@ -58,5 +63,51 @@ def games_classification(request):
             'data': data
         }    
         return render(request, 'gamesClassification.html', data_graph)
+    except:
+        return HttpResponse('Verifique que la api esté disponible')
+    
+def birthdays(request):
+    try:
+        r = requests.get('http://127.0.0.1:4000/birthdays')    
+        if r.status_code == 200:
+            response = ET.fromstring(r.text)
+            birthdays = response.findall('cliente')
+            clients = []
+            for client in birthdays:
+                new_client = {
+                    'name': client.find('nombre').text,
+                    'birthday': client.find('fechaCumpleaños').text,
+                    'first_buy': client.find('fechaPrimeraCompra').text
+                }
+                clients.append(new_client)            
+        data_birthdays = {
+            'clients': clients
+        }    
+        return render(request, 'birthdays.html', data_birthdays)
+    except:
+        return HttpResponse('Verifique que la api esté disponible')
+
+def games(request):
+    try:
+        r = requests.get('http://127.0.0.1:4000/games')    
+        if r.status_code == 200:
+            response = ET.fromstring(r.text)
+            games = response.findall('juego')
+            games_list = []
+            for game in games:                                
+                new_game = {
+                    'name': game.find('nombre').text,
+                    'platform': game.find('plataforma').text,
+                    'release': game.find('añoLanzamiento').text,
+                    'cla': game.find('clasificacion').text,
+                    'selled': game.find('copiasVendidas').text,
+                    'stock': game.find('stock').text,
+                    'color': game.find('color').text
+                }
+                games_list.append(new_game)            
+        data_games = {
+            'games': games_list
+        }    
+        return render(request, 'games.html', data_games)
     except:
         return HttpResponse('Verifique que la api esté disponible')
