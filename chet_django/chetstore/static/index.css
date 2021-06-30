@@ -114,6 +114,10 @@ a:hover{
     color: red;
 }
 
+.succes{
+    color: green;
+}
+
 .footer{
     display: flex;
     align-items: center;

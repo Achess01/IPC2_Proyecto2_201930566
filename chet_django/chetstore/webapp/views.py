@@ -3,8 +3,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponse
 import xml.etree.ElementTree as ET
 import requests
-import csv
-from io import StringIO
+from webapp.readCsv import analize_files
 
 # Create your views here.
 
@@ -12,21 +11,21 @@ from io import StringIO
 
 def getData(request):
     response = {
-        'message': '',
+        'messageError': '',
+        'messageSucces': '',
         'validator': False,
     }
-    if request.method == 'POST':        
-        if len(request.FILES.getlist('subir')) == 4:        
-            for f in request.FILES.getlist('subir'):         
-                content = StringIO(f.read().decode('utf-8'))
-                csv_reader = csv.reader(content, delimiter=',')
-                for row in csv_reader:
-                    for item in row:                
-                        print(item)
-                print("*"*10)
-            response['validator'] = True
+    if request.method == 'POST':   
+        if 'data' in request.POST:
+            data = request.POST['data']
+            response['messageSucces'] = "Datos guardados"
+            print(data)
+        elif len(request.FILES.getlist('subir')) == 4:                    
+            if analize_files(request.FILES.getlist('subir')) == None:
+                response['validator'] = False
+                response['messageError'] = "Uno de los archivos tiene el formato incorrecto"
         else:
-            response['message'] = "Error: Tiene que subir exactamente 4 archivos"
+            response['messageError'] = "Error: Tiene que subir exactamente 4 archivos"
     return render(request, 'getData.html', response)
 ## Requests
 

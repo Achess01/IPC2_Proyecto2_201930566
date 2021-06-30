@@ -11,7 +11,8 @@
 
 {% block main %}
     {% if not validator %}
-        <div class="error"><h3>{{message}}</h3></div>
+        <div class="error"><h3>{{messageError}}</h3></div>
+        <div class="succes"><h3>{{messageSucces}}</h3></div>
         <div class="formFile">
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}            
