@@ -20,10 +20,15 @@ def getData(request):
             data = request.POST['data']
             response['messageSucces'] = "Datos guardados"
             print(data)
-        elif len(request.FILES.getlist('subir')) == 4:                    
-            if analize_files(request.FILES.getlist('subir')) == None:
+        elif len(request.FILES.getlist('subir')) == 4:   
+            analized = analize_files(request.FILES.getlist('subir'))                 
+            if  analized == None:                
                 response['validator'] = False
                 response['messageError'] = "Uno de los archivos tiene el formato incorrecto"
+            else:
+                print(analized)
+                response['validator'] = True
+                response['messageSucces'] = "BUENA"
         else:
             response['messageError'] = "Error: Tiene que subir exactamente 4 archivos"
     return render(request, 'getData.html', response)
