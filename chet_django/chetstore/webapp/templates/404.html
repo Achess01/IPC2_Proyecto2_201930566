@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '404.css'%}">
+    <title>Page not found</title>
+{% endblock head_content %}
+
+{% block main %}
+    <div id="notfound">
+		<div class="notfound">
+				<div class="notfound-404">
+						<div></div>
+						<h1>400</h1>
+				</div>
+				<h2>Page not found</h2>
+				<p>{{message}}</p>
+				<a href="/">home page</a>
+		</div>
+{% endblock main %}

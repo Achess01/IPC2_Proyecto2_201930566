@@ -1,5 +1,7 @@
 from flask import Flask, request
 from flask import json
+import flask
+from flask.helpers import make_response
 from flask.json import jsonify
 
 from src.SaveData import *
@@ -13,9 +15,16 @@ def ping():
 @app.route('/new_data', methods=['POST'])
 def new_data():     
     #Solicitando datos    
-    data = request.data    
-    add_data(data)
-    return jsonify({"Message": "Probando, probando"})
+    try:
+        data = request.data        
+        print(data)
+        add_data(data)
+        response = jsonify({"Message": "Datos agregados"})
+        return response
+    except ValueError:         
+        # return jsonify({"Message": "Error al guardar los datos"})
+        response = jsonify({"Message": "Datos no agregados"})
+        return response
 
 @app.route('/best_clients', methods=['GET'])
 def best_clients():

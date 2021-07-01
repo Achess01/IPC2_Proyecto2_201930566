@@ -4,35 +4,40 @@ from django.http.response import HttpResponse
 import xml.etree.ElementTree as ET
 import requests
 from webapp.readCsv import analize_files
-import xml.dom.minidom as xm
+from webapp.lastXMLValidation import validateXML
+
 
 # Create your views here.
-
+##Errores
+    
 ##Subir archivo
-
 def getData(request):
     response = {
         'messageError': '',
         'messageSucces': '',
         'validator': False,
         'data': '',
+        'serverResponse': ''
     }
     if request.method == 'POST':   
         if 'data' in request.POST:
             data = request.POST['data']
-            response['messageSucces'] = "Datos guardados"                           
-            #str_xml = xml
-            r = requests.post('http://127.0.0.1:4000/new_data',data)                                    
-            print(data)
+            if validateXML(data):                
+                headers = {
+                    'Content-Type': 'application/xml'
+                }
+                r = requests.post('http://127.0.0.1:4000/new_data',data=data, headers=headers) 
+                response['serverResponse'] = r.text
+            else:
+                response['messageError'] = "Error en la estructura del XML"                
         elif len(request.FILES.getlist('subir')) == 4:   
             analized = analize_files(request.FILES.getlist('subir'))                 
             if  analized == None:                
                 response['validator'] = False
                 response['messageError'] = "Uno de los archivos tiene el formato incorrecto"
-            else:
+            else:                
                 response['data'] = analized
-                response['validator'] = True
-                response['messageSucces'] = "BUENA"
+                response['validator'] = True                
         else:
             response['messageError'] = "Error: Tiene que subir exactamente 4 archivos"
     return render(request, 'getData.html', response)
@@ -55,7 +60,7 @@ def most_selled(request):
         }    
         return render(request, 'mostSelled.html', data_graph)
     except:
-        return HttpResponse('Verifique que la api esté disponible')
+        return render(request, '404.html', {"message": "API no disponible"})
 
 def best_clients(request):
     try:
@@ -64,14 +69,14 @@ def best_clients(request):
             response = ET.fromstring(r.text)
             clients = response.findall('cliente')
             labels = list(map(lambda client: client.find('nombre').text, clients))
-            data = list(map(lambda client: int(client.find('cantidadGastada').text), clients))        
+            data = list(map(lambda client: float(client.find('cantidadGastada').text), clients))        
         data_graph = {
             'labels': labels,
             'data': data
         }    
         return render(request, 'bestClients.html', data_graph)
     except:
-        return HttpResponse('Verifique que la api esté disponible')
+        return render(request, '404.html', {"message": "API no disponible"})
 
 def games_classification(request):
     try:
@@ -87,7 +92,7 @@ def games_classification(request):
         }    
         return render(request, 'gamesClassification.html', data_graph)
     except:
-        return HttpResponse('Verifique que la api esté disponible')
+        return render(request, '404.html', {"message": "API no disponible"})
     
 def birthdays(request):
     try:
@@ -108,7 +113,7 @@ def birthdays(request):
         }    
         return render(request, 'birthdays.html', data_birthdays)
     except:
-        return HttpResponse('Verifique que la api esté disponible')
+        return render(request, '404.html', {"message": "API no disponible"})
 
 def games(request):
     try:
@@ -133,4 +138,4 @@ def games(request):
         }    
         return render(request, 'games.html', data_games)
     except:
-        return HttpResponse('Verifique que la api esté disponible')
+        return render(request, '404.html', {"message": "API no disponible"})

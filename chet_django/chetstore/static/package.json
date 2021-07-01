@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "codemirror": "^5.62.0"
+    "codemirror": "^5.62.0",
+    "vkbeautify": "^0.99.3"
   }
 }

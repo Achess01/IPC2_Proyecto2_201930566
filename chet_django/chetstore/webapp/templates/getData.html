@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="{%static '/node_modules/codemirror/lib/codemirror.css' %}">
     <link rel="stylesheet" href="{%static '/node_modules/codemirror/theme/monokai.css' %}">
     <link rel="stylesheet" href="{%static 'loadfile.css' %}">
-    <script src="{%static 'codemirror/index.js'%}" type="module"></script> 
+    <script src="{%static 'codemirror/index.js'%}" type="module"></script>     
     <title>Subir archivo</title>    
 {% endblock head_content %}
 
 {% block main %}
+    <div><h2>{{serverResponse}}</h2></div>
     {% if not validator %}
         <div class="error"><h3>{{messageError}}</h3></div>
         <div class="succes"><h3>{{messageSucces}}</h3></div>
@@ -21,9 +22,9 @@
                 <br/>
                 <input type="submit" value="Subir" class="button">
             </form>
-        </div>
+        </div>                
     {% endif %}
-    {% if  validator%}
+    {% if  validator%}        
         <div class="text-editor">
             <form action="" method="POST">
             {% csrf_token %}
@@ -31,6 +32,6 @@
             <textarea id="pruebaCodeMirror" name="data">{{data}}</textarea>
             <br>
             </form>
-        </div>  
+        </div>          
     {% endif %}
 {% endblock main %}

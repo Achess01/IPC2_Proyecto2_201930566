@@ -28,8 +28,14 @@ def add_data(data):
         cla_M.text = "0"
             
     # clients = root.find("clientes/cliente")    
-    # print(clients)
-    new = ET.fromstring(data)
+    # print(clients)       
+    
+    try:
+        new = ET.fromstring(data)
+    except:        
+        parseData = data.decode('Latin-1')
+        new = ET.fromstring(parseData)
+    
     clients_list = new.findall('clientes/cliente')
     best_clients_list = new.findall('mejoresClientes/mejorCliente')    
     for client in clients_list:        
@@ -152,13 +158,14 @@ def get_best_clients():
         root = xml.getroot()
         bests = root.findall("clientes/cliente")
         bests = [client for client in bests if client.find('cantidadGastada').text != '0']
-        bests.sort(key=lambda client: int(client.find('cantidadGastada').text), reverse=True)
+        bests.sort(key=lambda client: float(client.find('cantidadGastada').text), reverse=True)
         response = ET.ElementTree(ET.Element("mejoresClientes"))
         response_root = response.getroot()
         for client in bests:
             response_root.append(client)        
         return ET.tostring(response_root, encoding='UTF-8')
-    except:        
+    except ValueError as e:   
+        print(e)             
         response = ET.Element("Message")
         response.text = "No se encontraron datos"
         return ET.tostring(response, encoding='UTF-8')

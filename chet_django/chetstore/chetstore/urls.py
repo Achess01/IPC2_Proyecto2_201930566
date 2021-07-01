@@ -18,10 +18,10 @@ from django.urls import path
 from requests.api import request
 from webapp.views import *
 
-urlpatterns = [
-    #path('admin/', admin.site.urls),
-    
 
+
+urlpatterns = [
+    #path('admin/', admin.site.urls),    
     ##file
     path('', getData),
     ## Requests
@@ -30,5 +30,5 @@ urlpatterns = [
     path('requests/best_clients/', best_clients),
     path('requests/games_classification/', games_classification),
     path('requests/birthdays/', birthdays),
-    path('requests/games/', games)
-]
+    path('requests/games/', games), 
+] 

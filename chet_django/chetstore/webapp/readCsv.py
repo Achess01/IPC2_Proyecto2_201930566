@@ -25,7 +25,6 @@ LIST_BC = []
 LIST_G = []
 LIST_MS = []
 
-
 def analize_files(files):
     LIST_CL.clear()
     LIST_BC.clear()
@@ -65,7 +64,7 @@ def get_XML(clients, best_clients, games, most_selled):
     chet.append(best_clients_xml)
     chet.append(games_xml)
     chet.append(most_selled_xml)    
-    string_xml = ET.tostring(chet,encoding="UTF-8").decode("utf-8")
+    string_xml = ET.tostring(chet,encoding="UTF-8")
     xml = domxml.parseString(string_xml)
     prettyxml = xml.toprettyxml()
     return prettyxml
