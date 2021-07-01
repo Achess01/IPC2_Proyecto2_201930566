@@ -26,5 +26,14 @@ input[type=file]::-webkit-file-upload-button:hover{
 }
 
 .text-editor{
-    width: 100%;
+    width: 98vw;
+    position: relative;
+    font-size: 20px;
+}
+.text-editor .send{
+    width: 120px;
+    position: fixed;    
+    top: 100px;
+    right: 50px;
+    z-index: 3;
 }

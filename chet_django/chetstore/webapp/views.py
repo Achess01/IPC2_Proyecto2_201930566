@@ -4,6 +4,7 @@ from django.http.response import HttpResponse
 import xml.etree.ElementTree as ET
 import requests
 from webapp.readCsv import analize_files
+import xml.dom.minidom as xm
 
 # Create your views here.
 
@@ -14,11 +15,14 @@ def getData(request):
         'messageError': '',
         'messageSucces': '',
         'validator': False,
+        'data': '',
     }
     if request.method == 'POST':   
         if 'data' in request.POST:
             data = request.POST['data']
-            response['messageSucces'] = "Datos guardados"
+            response['messageSucces'] = "Datos guardados"                           
+            #str_xml = xml
+            r = requests.post('http://127.0.0.1:4000/new_data',data)                                    
             print(data)
         elif len(request.FILES.getlist('subir')) == 4:   
             analized = analize_files(request.FILES.getlist('subir'))                 
@@ -26,7 +30,7 @@ def getData(request):
                 response['validator'] = False
                 response['messageError'] = "Uno de los archivos tiene el formato incorrecto"
             else:
-                print(analized)
+                response['data'] = analized
                 response['validator'] = True
                 response['messageSucces'] = "BUENA"
         else:
@@ -36,15 +40,7 @@ def getData(request):
 
 def see_requests(request):
     return render(request, 'requests.html')
-
-def codemirror(request):
-    if request.method == 'POST':
-        print('*'*10)        
-        data = request.POST['data']
-        print(data)
-        print('*'*10)                    
-    return render(request, 'codemirror.html')            
-
+          
 def most_selled(request):
     try:
         r = requests.get('http://127.0.0.1:4000/most_selled')    

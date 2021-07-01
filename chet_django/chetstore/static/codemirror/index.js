@@ -5,7 +5,8 @@ window.onload = function(){
     let text = document.getElementById('pruebaCodeMirror')
     let editor = CodeMirror.fromTextArea(text, {            
         lineNumbers: true,
-        mode: "xml"
+        mode: "xml"        
     });
-    editor.setOption("theme", "darcula")
+    editor.setSize(null, "30%")
+    editor.setOption("theme", "monokai")
 }

@@ -19,8 +19,8 @@ from requests.api import request
 from webapp.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('editor/', codemirror),
+    #path('admin/', admin.site.urls),
+    
 
     ##file
     path('', getData),

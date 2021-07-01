@@ -13,7 +13,7 @@ def ping():
 @app.route('/new_data', methods=['POST'])
 def new_data():     
     #Solicitando datos    
-    data = request.data
+    data = request.data    
     add_data(data)
     return jsonify({"Message": "Probando, probando"})
 

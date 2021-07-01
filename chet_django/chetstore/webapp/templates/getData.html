@@ -3,7 +3,7 @@
 {% block head_content %}
     {% load static %}
     <link rel="stylesheet" href="{%static '/node_modules/codemirror/lib/codemirror.css' %}">
-    <link rel="stylesheet" href="{%static '/node_modules/codemirror/theme/darcula.css' %}">
+    <link rel="stylesheet" href="{%static '/node_modules/codemirror/theme/monokai.css' %}">
     <link rel="stylesheet" href="{%static 'loadfile.css' %}">
     <script src="{%static 'codemirror/index.js'%}" type="module"></script> 
     <title>Subir archivo</title>    
@@ -27,9 +27,9 @@
         <div class="text-editor">
             <form action="" method="POST">
             {% csrf_token %}
-            <textarea id="pruebaCodeMirror" name="data"></textarea>
+            <input type="submit" value="Correcto" class="button send">
+            <textarea id="pruebaCodeMirror" name="data">{{data}}</textarea>
             <br>
-            <input type="submit" value="Correcto" class="button">
             </form>
         </div>  
     {% endif %}
