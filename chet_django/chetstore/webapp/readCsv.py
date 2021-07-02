@@ -4,11 +4,12 @@ import re
 from typing import List
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as domxml
+from webapp.ShowError import *
 
-CL_HEADERS = set(['nombre', 'apellido', 'edad', 'fechacumpleaños', 'fechaprimeracompra'])
+CL_HEADERS = set(['nombre', 'apellido', 'edad', 'fechacumpleannos', 'fechaprimeracompra'])
 BCL_HEADERS = set(['nombre', 'fechaultimacompra', 'cantidadcomprada', 'cantidadgastada'])
-#G_HEADERS = set(['nombre', 'plataforma', 'añoLanzamiento', 'clasificación', 'stock'])
-G_HEADERS = set(['nombre', 'plataforma', 'añolanzamiento', 'clasificacion'])
+G_HEADERS = set(['nombre', 'plataforma', 'añolanzamiento', 'clasificacion', 'stock'])
+#G_HEADERS = set(['nombre', 'plataforma', 'añolanzamiento', 'clasificacion'])
 MSG_HEADERS = set(['nombre', 'fechaultimacompra', 'copiasvendidas', 'stock'])
 PATTERNS = {
     'nombre': '[áéíóúa-zÁÉÍÓÚA-Z]{2,}\s?[áéíóúa-zÁÉÍÓÚA-Z]{1,}',
@@ -25,6 +26,9 @@ LIST_BC = []
 LIST_G = []
 LIST_MS = []
 
+#DELIMITER = ','
+DELIMITER = ';'
+
 def analize_files(files):
     LIST_CL.clear()
     LIST_BC.clear()
@@ -38,10 +42,9 @@ def analize_files(files):
     }
     for file in files:                         
         content = StringIO(file.read().decode('utf-8'))
-        csv_reader = csv.DictReader(content, delimiter=';')                                                  
+        csv_reader = csv.DictReader(content, delimiter=DELIMITER)         
         new_fielnames = list(map(lambda header: header.lower(),csv_reader.fieldnames))                
-        csv_reader.fieldnames = new_fielnames         
-        #print(new_fielnames)
+        csv_reader.fieldnames = new_fielnames                 
         if len(set(new_fielnames) & CL_HEADERS) == len(new_fielnames) and filesFound['clients'] == None:
             filesFound['clients'] = csv_reader.reader
         elif len(set(new_fielnames) & BCL_HEADERS) == len(new_fielnames) and filesFound['best_clients'] == None:
@@ -51,13 +54,14 @@ def analize_files(files):
         elif len(set(new_fielnames) & MSG_HEADERS) == len(new_fielnames) and filesFound['most_selled'] == None:
             filesFound['most_selled'] = csv_reader.reader
         else:
+            addError(new_fielnames)
             return None        
     return validate_fields(filesFound)            
     
 def get_XML(clients, best_clients, games, most_selled):    
     clients_xml = get_nodes_XML(clients,['nombre', 'apellido', 'edad', 'fechaCumpleaños', 'fechaPrimeraCompra'], 'clientes', 'cliente')
     best_clients_xml = get_nodes_XML(best_clients,['nombre', 'fechaUltimaCompra', 'cantidadComprada', 'cantidadGastada'], 'mejoresClientes', 'mejorCliente')
-    games_xml = get_nodes_XML(games,['nombre', 'plataforma', 'añoLanzamiento', 'clasificacion'], 'juegos', 'juego')
+    games_xml = get_nodes_XML(games,['nombre', 'plataforma', 'añoLanzamiento', 'clasificacion', 'stock'], 'juegos', 'juego')
     most_selled_xml = get_nodes_XML(most_selled,['nombre', 'fechaUltimaCompra', 'copiasVendidas', 'stock'], 'juegosMasVendidos', 'juegoMasVendido')
     chet = ET.Element("Chet")
     chet.append(clients_xml)
@@ -80,19 +84,19 @@ def get_nodes_XML(data, tags :List, rootTag, middleTag):
             i+=1
     return root
                 
-def find_match(pattern, value, line):
-    if not re.fullmatch(PATTERNS[pattern], value):
-        print(value, str(line+1))
+def find_match(pattern, value, line, file):
+    if not re.fullmatch(PATTERNS[pattern], value):        
+        addErrorValue(value, line+1, file)
         return False        
     return True
 
-def validate(dictReader,patterns : List):       
+def validate(dictReader,patterns : List, file):       
     try:
         line = 1
         for row in dictReader:            
             i = 0
             for v in row:                     
-                if not find_match(patterns[i],v,line):
+                if not find_match(patterns[i],v,line, file):
                         return False                
                 i+=1
             line+=1
@@ -104,22 +108,22 @@ def validate(dictReader,patterns : List):
 def validate_clients(clients ):
     for row in clients:        
         LIST_CL.append(row)
-    return validate(LIST_CL, ['nombre', 'nombre', 'edad', 'fecha', 'fecha'])    
+    return validate(LIST_CL, ['nombre', 'nombre', 'edad', 'fecha', 'fecha'], "clientes")    
 
 def validate_best_clients(best_clients ):
     for row in best_clients:
         LIST_BC.append(row)
-    return validate(LIST_BC, ['nombre', 'fecha', 'cantidad', 'gastado'])
+    return validate(LIST_BC, ['nombre', 'fecha', 'cantidad', 'gastado'], "mejores clientes")
 
 def validate_games(games):
     for row in games:
         LIST_G.append(row)
-    return validate(LIST_G, ['no_validate', 'no_validate', 'año', 'clasificacion'])
+    return validate(LIST_G, ['no_validate', 'no_validate', 'año', 'clasificacion', 'cantidad'], "juegos")
 
 def validate_most_selled(most_selled ):
     for row in most_selled:
         LIST_MS.append(row)
-    return validate(LIST_MS, ['no_validate', 'fecha', 'cantidad', 'cantidad'])
+    return validate(LIST_MS, ['no_validate', 'fecha', 'cantidad', 'cantidad'], "juegos más vendidos")
 
 def validate_fields(data):
     clients = data['clients']

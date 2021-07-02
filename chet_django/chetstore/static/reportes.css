@@ -1,0 +1,16 @@
+.errVal, .errHe{
+    box-shadow: 0 0 2px 2px rgb(0, 0, 0, .5);
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    background-color: #D5AFAF;
+}
+
+
+.errVal:hover, .errHe:hover{
+    transform: scale(1.01);
+}
+
+.errVal p{
+    margin: 0;
+}

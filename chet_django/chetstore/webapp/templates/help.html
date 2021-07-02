@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Ayuda</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'help.css'%}">
+{% endblock head_content %}
+{% block main %}
+    <section class="options">
+        <div class="op">
+            <h2><a href="info/">Información del programador</a></h2>
+        </div>
+        <div class="op">
+            <h2><a href="docs/" target="_blank">Documentación</a></h2>
+        </div>
+    </section>
+{% endblock main %}

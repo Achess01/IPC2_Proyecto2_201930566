@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reportes.css'%}">
+    <title>Reporte de erroes</title>
+{% endblock head_content %}
+{% block main %}
+    <h2>Errores en los valores</h2>
+    {% for error in errorVal %}
+        <article class="errVal">
+        <span><strong>Hora:</strong> {{error.time}}.</span>
+        <span><strong>En archivo de</strong> {{error.file}},</span>
+        <span><strong>en la línea </strong>{{error.line}}. </span>
+        <span><strong>Valor encotrado</strong> {{error.value}}</span>        
+        <p>Valor incorrecto para el campo solicitado.</p>        
+        </article>
+    {% endfor %}
+    <h2>Errores de cabeceras</h2>
+    {% for error in errorH %}
+        <article class="errHe">
+        <span><strong>Hora:</strong> {{error.time}}.<span>
+        <span><strong>Cabecera</strong> {{error.header}}<span>        
+        </article>
+    {% endfor %}
+{% endblock main %}

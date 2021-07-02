@@ -21,7 +21,7 @@ def new_data():
         add_data(data)
         response = jsonify({"Message": "Datos agregados"})
         return response
-    except ValueError:         
+    except:         
         # return jsonify({"Message": "Error al guardar los datos"})
         response = jsonify({"Message": "Datos no agregados"})
         return response

@@ -31,4 +31,8 @@ urlpatterns = [
     path('requests/games_classification/', games_classification),
     path('requests/birthdays/', birthdays),
     path('requests/games/', games), 
+    path('reports/', show_Errors),
+    path('ayuda/', help),
+    path('ayuda/info/', info),
+    path('ayuda/docs/', docs)
 ] 

@@ -105,10 +105,10 @@ def add_data(data):
         last_buy = ET.SubElement(new_game, 'fechaUltimaCompra')
         copies_selled = ET.SubElement(new_game, 'copiasVendidas')
         stock = ET.SubElement(new_game, 'stock')
-        is_most_selled = new.find("juegosMasVendidos/juegoMasVendido/[nombre='"+name.text+"']")
+        is_most_selled = new.find('juegosMasVendidos/juegoMasVendido/[nombre="'+name.text+'"]')
         lb = "-"
         nc = "0"
-        st = "0"
+        st = game.find('stock').text
         if is_most_selled != None:
             lb = is_most_selled.find('fechaUltimaCompra').text
             nc = is_most_selled.find('copiasVendidas').text
@@ -209,7 +209,6 @@ def get_day_month(strdate):
     date = datetime.strptime(strdate, "%d/%m/%Y")    
     return datetime.date(datetime(actual_year, date.month, date.day))
     
-
 def get_birthdays():
     try:
         xml = ET.parse(FILENAME)    

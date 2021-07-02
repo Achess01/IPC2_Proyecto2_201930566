@@ -1,3 +1,4 @@
+from os import error
 from typing import IO
 from django.shortcuts import render
 from django.http.response import HttpResponse
@@ -5,10 +6,24 @@ import xml.etree.ElementTree as ET
 import requests
 from webapp.readCsv import analize_files
 from webapp.lastXMLValidation import validateXML
+from webapp.ShowError import getErrors
+from django.http import FileResponse
 
 
 # Create your views here.
-##Errores
+
+def info(request):
+    return render(request, 'info.html')
+
+def docs(request):    
+    try:
+        return FileResponse(open('docs/ejemploDocs.pdf', 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        return render(request, '404.html', {"message": "Archivo no encontrado"})   
+
+
+def help(request):
+    return render(request, 'help.html')
     
 ##Subir archivo
 def getData(request):
@@ -42,6 +57,11 @@ def getData(request):
             response['messageError'] = "Error: Tiene que subir exactamente 4 archivos"
     return render(request, 'getData.html', response)
 ## Requests
+
+##Errores
+def show_Errors(request):
+    errors = getErrors()
+    return render(request, 'Reportes.html', errors)
 
 def see_requests(request):
     return render(request, 'requests.html')
