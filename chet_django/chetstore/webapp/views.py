@@ -17,7 +17,7 @@ def info(request):
 
 def docs(request):    
     try:
-        return FileResponse(open('docs/ejemploDocs.pdf', 'rb'), content_type='application/pdf')
+        return FileResponse(open('docs/DocsProyecto2IPC2.pdf', 'rb'), content_type='application/pdf')
     except FileNotFoundError:
         return render(request, '404.html', {"message": "Archivo no encontrado"})   
 

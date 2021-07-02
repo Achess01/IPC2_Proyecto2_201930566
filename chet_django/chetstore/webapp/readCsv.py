@@ -26,8 +26,8 @@ LIST_BC = []
 LIST_G = []
 LIST_MS = []
 
-#DELIMITER = ','
-DELIMITER = ';'
+DELIMITER = ','
+#DELIMITER = ';'
 
 def analize_files(files):
     LIST_CL.clear()
