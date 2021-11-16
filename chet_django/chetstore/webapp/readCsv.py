@@ -26,8 +26,8 @@ LIST_BC = []
 LIST_G = []
 LIST_MS = []
 
-DELIMITER = ','
-#DELIMITER = ';'
+#DELIMITER = ','
+DELIMITER = ';'
 
 def analize_files(files):
     LIST_CL.clear()
@@ -41,17 +41,19 @@ def analize_files(files):
         'most_selled': None
     }
     for file in files:                         
-        content = StringIO(file.read().decode('utf-8'))
+        content = StringIO(file.read().decode('utf-8-sig'))
         csv_reader = csv.DictReader(content, delimiter=DELIMITER)         
         new_fielnames = list(map(lambda header: header.lower(),csv_reader.fieldnames))                
-        csv_reader.fieldnames = new_fielnames                 
-        if len(set(new_fielnames) & CL_HEADERS) == len(new_fielnames) and filesFound['clients'] == None:
+        csv_reader.fieldnames = new_fielnames   
+        # print(len(G_HEADERS))
+        print(new_fielnames)              
+        if len(set(new_fielnames) & CL_HEADERS) == len(CL_HEADERS) and filesFound['clients'] == None:
             filesFound['clients'] = csv_reader.reader
-        elif len(set(new_fielnames) & BCL_HEADERS) == len(new_fielnames) and filesFound['best_clients'] == None:
+        elif len(set(new_fielnames) & BCL_HEADERS) == len(BCL_HEADERS) and filesFound['best_clients'] == None:
             filesFound['best_clients'] = csv_reader.reader
-        elif len(set(new_fielnames) & G_HEADERS) == len(new_fielnames) and filesFound['games'] == None:
+        elif len(set(new_fielnames) & G_HEADERS) == len(G_HEADERS) and filesFound['games'] == None:
             filesFound['games'] = csv_reader.reader
-        elif len(set(new_fielnames) & MSG_HEADERS) == len(new_fielnames) and filesFound['most_selled'] == None:
+        elif len(set(new_fielnames) & MSG_HEADERS) == len(MSG_HEADERS) and filesFound['most_selled'] == None:
             filesFound['most_selled'] = csv_reader.reader
         else:
             addError(new_fielnames)
@@ -95,7 +97,7 @@ def validate(dictReader,patterns : List, file):
         line = 1
         for row in dictReader:            
             i = 0
-            for v in row:                     
+            for v in row:                       
                 if not find_match(patterns[i],v,line, file):
                         return False                
                 i+=1
@@ -103,6 +105,7 @@ def validate(dictReader,patterns : List, file):
         return True
     except:
         #guardar error como cantidad de elementos nel
+        addErrorValue("La fila no tiene la cantidad correcta de datos", line+1, file)
         return False
 
 def validate_clients(clients ):
@@ -130,6 +133,6 @@ def validate_fields(data):
     best_clients = data['best_clients']
     games = data['games']
     most_selled = data['most_selled']    
-    if validate_clients(clients) and validate_best_clients(best_clients) and validate_games(games) and validate_most_selled(most_selled):                    
+    if validate_clients(clients) and validate_best_clients(best_clients) and validate_games(games) and validate_most_selled(most_selled):
         return get_XML(LIST_CL, LIST_BC, LIST_G, LIST_MS)
     return None
